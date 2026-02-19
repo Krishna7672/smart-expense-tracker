@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumina | Smart Expense Tracker</title>
+    
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0a0e17">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="bg-animation">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+        <div class="blob blob-4"></div>
+    </div>
+
+    <div class="app-container">
+        
+        <header class="glass-panel header" id="main-header">
+            <div class="logo">
+                <i class="fa-solid fa-cube"></i> LUMINA
+            </div>
+            
+            <div class="app-controls">
+                <div class="mode-toggle-container">
+                    <span id="mode-label-personal" class="active-mode">Personal</span>
+                    <label class="switch">
+                        <input type="checkbox" id="mode-toggle">
+                        <span class="slider round"></span>
+                    </label>
+                    <span id="mode-label-business">Business</span>
+                </div>
+                
+                <div class="data-actions">
+                    <button id="export-btn" class="icon-btn" title="Export to CSV"><i class="fa-solid fa-download"></i></button>
+                    <label for="import-file" class="icon-btn" title="Import CSV"><i class="fa-solid fa-upload"></i></label>
+                    <input type="file" id="import-file" accept=".csv" style="display:none;">
+                </div>
+            </div>
+
+            <div class="total-balance">
+                <span>Total Spent</span>
+                <h1 id="total-amount">₹0.00</h1>
+                <div class="budget-container">
+                    <span>Limit: ₹</span>
+                    <input type="number" id="budget-input" placeholder="Set Budget" min="0">
+                </div>
+            </div>
+        </header>
+
+        <main class="dashboard-grid">
+            
+            <section class="left-col">
+                
+                <div class="glass-panel input-section">
+                    <h3><i class="fa-solid fa-plus-circle"></i> Add Transaction</h3>
+                    <form id="expense-form">
+                        <div class="form-group">
+                            <label>Description</label>
+                            <input type="text" id="desc-input" placeholder="e.g. Jio AirFiber" required>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Amount (₹)</label>
+                                <input type="number" id="amount-input" placeholder="0.00" min="1" step="1" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Date</label>
+                                <input type="date" id="date-input" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group checkbox-group">
+                            <input type="checkbox" id="recurring-input">
+                            <label for="recurring-input">Mark as Monthly Recurring Bill</label>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Category</label>
+                            <div class="category-selector">
+                                <label class="radio-card">
+                                    <input type="radio" name="category" value="Milk" checked>
+                                    <div class="card-content"><i class="fa-solid fa-glass-water"></i><span>Milk</span></div>
+                                </label>
+                                <label class="radio-card">
+                                    <input type="radio" name="category" value="Electricity">
+                                    <div class="card-content"><i class="fa-solid fa-bolt"></i><span>Elec</span></div>
+                                </label>
+                                <label class="radio-card">
+                                    <input type="radio" name="category" value="Gas">
+                                    <div class="card-content"><i class="fa-solid fa-fire"></i><span>Gas</span></div>
+                                </label>
+                                <label class="radio-card">
+                                    <input type="radio" name="category" value="Investments">
+                                    <div class="card-content"><i class="fa-solid fa-arrow-trend-up"></i><span>Invest</span></div>
+                                </label>
+                                <label class="radio-card">
+                                    <input type="radio" name="category" value="Other">
+                                    <div class="card-content"><i class="fa-solid fa-coins"></i><span>Other</span></div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="glow-btn">
+                            Add Transaction <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </form>
+                </div>
+
+                <div class="glass-panel visualizer-section">
+                    <h3 id="vis-title"><i class="fa-solid fa-glass-water"></i> Milk Gauge</h3>
+                    
+                    <div id="vis-Milk" class="vis-container active">
+                        <div id="canvas-container"></div>
+                    </div>
+                    
+                    <div id="vis-Electricity" class="vis-container">
+                        <div class="battery-outer">
+                            <div class="battery-level" id="elec-level"></div>
+                            <i class="fa-solid fa-bolt vis-icon-center"></i>
+                        </div>
+                    </div>
+                    
+                    <div id="vis-Gas" class="vis-container">
+                        <div class="flame-gauge">
+                            <i class="fa-solid fa-fire flame-icon" id="gas-level"></i>
+                            <div class="burner-base"></div>
+                        </div>
+                    </div>
+                    
+                    <div id="vis-Other" class="vis-container">
+                        <div class="piggy-outer">
+                            <div class="piggy-level" id="other-level"></div>
+                            <i class="fa-solid fa-piggy-bank vis-icon-center"></i>
+                        </div>
+                    </div>
+                    
+                    <div id="vis-Investments" class="vis-container">
+                        <div class="invest-chart">
+                            <div class="trend-line" id="invest-level"></div>
+                            <i class="fa-solid fa-arrow-trend-up vis-icon-center"></i>
+                        </div>
+                    </div>
+                    
+                    <p class="vis-hint" id="vis-hint">Visualizes "Milk" spending volume</p>
+                </div>
+
+            </section>
+
+            <section class="middle-col">
+                <div class="glass-panel chart-panel">
+                    <h3>Spending Breakdown</h3>
+                    <div class="chart-container">
+                        <canvas id="pieChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="glass-panel chart-panel">
+                    <h3>Monthly History</h3>
+                    <div class="chart-container">
+                        <canvas id="lineChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <section class="right-col">
+                <div class="glass-panel calendar-panel">
+                    <div class="calendar-header">
+                        <h3 id="current-month-year">Month Year</h3>
+                    </div>
+                    <div class="calendar-grid" id="calendar-grid">
+                        </div>
+                </div>
+
+                <div class="glass-panel history-panel">
+                    <h3>Recent Activity</h3>
+                    <ul id="expense-list" class="expense-list">
+                        </ul>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <div id="fx-container"></div>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script defer src="script.js"></script>
+</body>
+</html>
